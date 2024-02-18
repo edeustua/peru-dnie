@@ -1,0 +1,19 @@
+---
+min_version: 1.2.6
+colors: false
+no_tty: true
+
+skip_output:
+  - success
+  - execution
+
+pre-commit:
+  parallel: true
+  commands:
+
+    # split the individual tasks from `make validate` up so they run faster in
+    # parallel
+    format:
+      run: make format
+    validate:
+      run: make validate

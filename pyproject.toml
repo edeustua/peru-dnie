@@ -1,0 +1,72 @@
+[project]
+name = "peru-dnie"
+version = "0.0.1"
+authors = [
+  { name="Emiliano Deustua", email="edeustua@gmail.com" },
+]
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+
+[project.scripts]
+peru_dnie = "peru_dnie.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/edeustua/peru-dnie"
+Issues = "https://github.com/edeustua/peru-dnie/issues"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.pyright]
+include = ["src", "tests"]
+exclude = [
+  "**/node_modules",
+  "**/__pycache__",
+]
+ignore = []
+defineConstant = { DEBUG = true }
+venv = ".venv"
+
+reportMissingImports = true
+reportMissingTypeStubs = false
+
+pythonVersion = "3.11"
+
+[tool.isort]
+profile = "black"
+
+multi_line_output = 3
+order_by_type = true
+
+# line_length = 1
+# add a section for company internal libraries
+known_firstparty=["ibeks_pulumi", "local_test_utils"]
+
+# add the comment headers for each section
+import_heading_stdlib="Standard Library"
+import_heading_thirdparty="Third Party Library"
+import_heading_firstparty="First Party Library"
+import_heading_localfolder="Local Modules"
+sections=["FUTURE", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
+
+[tool.ruff]
+line-length = 88
+
+# removes warning for some of the rule sets
+preview = true
+select = ["E", "F", "B", "S"]
+ignore = ["E203", "E501", "E266"]
+
+[tool.ruff.lint.per-file-ignores]
+"noxfile.py" = ["E402"]
+
+# ignore "pythonic" comparisons to booleans, for clarity in writing tests
+"tests/*" = ["S101", "S603", "B011", "E712"]
+
+"tool_lib/local_nox/*" = ["S101"]
