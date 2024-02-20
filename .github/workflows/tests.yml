@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.9", "3.10", "3.11"]
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
 
     steps:
       - uses: actions/cache@v4
@@ -23,6 +23,10 @@ jobs:
             ${{ runner.os }}-pip-
 
       - uses: actions/checkout@v4
+
+      - name: Install libpcslite for pyscard
+        run: |
+          sudo apt install libpcsclite-dev -y
 
       - uses: actions/setup-python@v5
         name: Set up python ${{ matrix.python-version }}
