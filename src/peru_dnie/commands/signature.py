@@ -1,9 +1,6 @@
 # Standard Library
-from enum import StrEnum, auto
+from enum import Enum
 from pathlib import Path
-
-# Third Party Library
-from smartcard.pcsc.PCSCReader import PCSCCardConnection
 
 # First Party Library
 from peru_dnie.apdu import APDUCommand, APDUError
@@ -14,8 +11,8 @@ from peru_dnie.hashes import HashFunction
 from .general import SELECT_PKI_APP, verify_pin
 
 
-class PaddingSchemes(StrEnum):
-    PKCS1_15 = auto()
+class PaddingSchemes(str, Enum):
+    PKCS1_15 = "pkcs1_15"
 
 
 def build_signature_payload(
