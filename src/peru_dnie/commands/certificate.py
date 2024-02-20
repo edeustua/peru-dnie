@@ -90,7 +90,7 @@ def extract_signature_certificate(ctx: Context) -> bytes:
 
         # Update reading command with new offset
         offset = int.from_bytes(read_cert_apdu_command.data[2:]) + 0xE4
-        offset = offset.to_bytes(length=2)
+        offset = offset.to_bytes(length=2, byteorder="big")
         read_cert_apdu_command.data = read_cert_apdu_command.data[:2] + offset
 
     if success:

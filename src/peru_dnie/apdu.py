@@ -1,10 +1,10 @@
 # Standard Library
-from typing import Sequence
+from typing import Sequence, Union
 
 # Third Party Library
 from attrs import define
 
-ByteLike = Sequence[int] | bytes | bytearray
+ByteLike = Union[Sequence[int], bytes, bytearray]
 
 
 class APDUError(Exception):
@@ -16,9 +16,9 @@ class APDUCommand:
     ins: int
     p1: int
     p2: int
-    lc: int | None = None
-    data: bytes | None = None
-    le: int | None = None
+    lc: Union[int, None] = None
+    data: Union[bytes, None] = None
+    le: Union[int, None] = None
     cla: int = 0x00
 
     def __attrs_post_init__(self):
@@ -32,10 +32,10 @@ class APDUCommand:
         command = bytes([self.cla, self.ins, self.p1, self.p2])
 
         if self.lc is not None and self.data is not None:
-            command += self.lc.to_bytes() + self.data
+            command += self.lc.to_bytes(length=2, byteorder="big") + self.data
 
         if self.le is not None:
-            command += self.le.to_bytes()
+            command += self.le.to_bytes(length=2, byteorder="big")
 
         return command
 
@@ -44,7 +44,7 @@ class APDUCommand:
 class APDUResponse:
     sw1: int
     sw2: int
-    data: bytes | None = None
+    data: Union[bytes, None] = None
 
     @property
     def ok(self):

@@ -1,5 +1,8 @@
+# Standard Library
+from typing import Union
+
 # Third Party Library
-from attrs import Factory, define
+from attrs import define
 
 # First Party Library
 from peru_dnie.apdu import APDUCommand, APDUResponse
@@ -10,8 +13,8 @@ from peru_dnie.hashes import HashFunction
 
 @define
 class Context:
-    hash_func: HashFunction | None = None
-    card: SmartCard | None = None
+    hash_func: Union[HashFunction, None] = None
+    card: Union[SmartCard, None] = None
     cli: CliConfig = CLI_CONFIG
     DEBUG: bool = False
 
