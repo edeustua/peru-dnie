@@ -10,7 +10,16 @@ format: ## Format project
 
 validate: ## Run static analysis
 	mypy --strict src/
-.PHONY: black
+.PHONY: validate
+
+test: ## Run tests
+	pytest \
+		-v \
+		--capture no \
+		--pointers-report \
+		--pointers-func-min-pass=1 \
+		./tests
+.PHONY: test
 
 ##@ Help
 
