@@ -1,4 +1,5 @@
 # Standard Library
+from enum import Enum
 from typing import Final
 
 # Third Party Library
@@ -7,6 +8,12 @@ from rich.prompt import Prompt
 # First Party Library
 from peru_dnie.apdu import APDUCommand
 from peru_dnie.context import Context
+
+
+class PinType(Enum):
+    SIGNATURE = 0x81
+    ENCRYPTION = 0x83
+
 
 SELECT_PKI_APP: Final = APDUCommand(
     cla=0x00,
@@ -35,9 +42,13 @@ SELECT_PKI_APP: Final = APDUCommand(
 )
 
 
-def verify_pin(ctx: Context) -> bool:
+def verify_pin(ctx: Context, *, pin_type: PinType) -> bool:
     """Verify the PIN before a DNIe cryptographic operation"""
-    pin = Prompt.ask("Please enter your PIN", password=True)
+    pin = Prompt.ask(
+        "Please enter your PIN",
+        password=True,
+        console=ctx.cli.console,
+    )
 
     encoded_pin = pin.encode("ascii")
 
@@ -45,7 +56,7 @@ def verify_pin(ctx: Context) -> bool:
         cla=0x00,
         ins=0x20,
         p1=0x00,
-        p2=0x81,
+        p2=pin_type.value,
         lc=len(encoded_pin),
         data=encoded_pin,
     )

@@ -8,7 +8,7 @@ from peru_dnie.context import Context
 from peru_dnie.hashes import HashFunction
 
 # Local Modules
-from .general import SELECT_PKI_APP, verify_pin
+from .general import SELECT_PKI_APP, PinType, verify_pin
 
 
 class PaddingSchemes(str, Enum):
@@ -42,6 +42,10 @@ def sign_bytes(
     input_bytes: bytes,
 ) -> bytes:
     """Sign a string of bytes with the DNIe card."""
+
+    if ctx.hash_func is None:
+        raise ValueError("A hash function is needed for a signature.")
+
     pkcs1_15_padded_hash = build_signature_payload(
         input_bytes,
         ctx.hash_func,
@@ -53,7 +57,7 @@ def sign_bytes(
     if not r.ok:
         raise APDUError(f"Could not initialize PKI app '{r:!r}'")
 
-    verify_pin(ctx)
+    verify_pin(ctx, pin_type=PinType.SIGNATURE)
 
     # Set security enviroment for RSA signature, off-card hashing, and in card
     # padding. With these settings the card expects a hash with its corresponding
