@@ -94,6 +94,7 @@ def extract_signature_certificate(ctx: Context) -> bytes:
         read_cert_apdu_command.data = read_cert_apdu_command.data[:2] + offset
 
     if success:
+        spinner.stop()
         ctx.cli.console.print("[green]Certificate successfully loaded")
     else:
         ctx.cli.console.print("[red]Could not read certificate")
@@ -114,3 +115,4 @@ def extract_certificate_to_file(
         raise TypeError("Certificate type extraction not supported")
 
     output_file.write_bytes(certificate)
+    ctx.cli.console.print(f"[green]Wrote certificate to '{output_file.name}'")
