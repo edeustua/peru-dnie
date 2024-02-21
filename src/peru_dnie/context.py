@@ -16,10 +16,6 @@ class Context:
     hash_func: Union[HashFunction, None] = None
     card: Union[SmartCard, None] = None
     cli: CliConfig = CLI_CONFIG
-    DEBUG: bool = False
-
-    def initialize(self):
-        self.card = SmartCard()
 
     def transmit(self, command: APDUCommand) -> APDUResponse:
         if self.card is None:

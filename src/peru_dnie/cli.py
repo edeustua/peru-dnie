@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import get_args
 
 # First Party Library
+from peru_dnie.card_init import initialize_smart_card
 from peru_dnie.commands.certificate import extract_certificate_to_file
 from peru_dnie.commands.signature import sign_file
 from peru_dnie.context import Context
@@ -71,21 +72,23 @@ def main():
 
     if args.command == "sign":
         ctx = Context(hash_func=HashFunction(name=args.hash_algorithm))
-        ctx.initialize()
+        initialize_smart_card(ctx)
 
         sign_file(
             ctx,
             input_file=args.input_file,
             output_file=args.output_file,
         )
+
     elif args.command == "extract":
         ctx = Context()
-        ctx.initialize()
+        initialize_smart_card(ctx)
 
         extract_certificate_to_file(
             ctx,
             output_file=args.output_file,
             certificate_type=args.certificate_type,
         )
+
     else:
         parser.print_help()
