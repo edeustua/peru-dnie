@@ -32,10 +32,10 @@ class APDUCommand:
         command = bytes([self.cla, self.ins, self.p1, self.p2])
 
         if self.lc is not None and self.data is not None:
-            command += self.lc.to_bytes(length=2, byteorder="big") + self.data
+            command += self.lc.to_bytes(length=1, byteorder="big") + self.data
 
         if self.le is not None:
-            command += self.le.to_bytes(length=2, byteorder="big")
+            command += self.le.to_bytes(length=1, byteorder="big")
 
         return command
 
