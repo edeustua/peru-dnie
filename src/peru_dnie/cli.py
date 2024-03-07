@@ -9,60 +9,59 @@ from peru_dnie.commands.certificate import extract_certificate_to_file
 from peru_dnie.commands.signature import sign_file
 from peru_dnie.context import Context
 from peru_dnie.hashes import HashFunction, HashTypes
+from peru_dnie.i18n import t
 
 
 def register_sign_parser(subparsers):
     sign_parser = subparsers.add_parser(
         "sign",
-        help="Sign with the DNIe",
+        help=t["cli"]["sign"]["sign_help"],
     )
     sign_parser.add_argument(
         "input_file",
         type=Path,
-        help="File to sign",
+        help=t["cli"]["sign"]["input_file_help"],
     )
     sign_parser.add_argument(
         "output_file",
         type=Path,
-        help="File with signature",
+        help=t["cli"]["sign"]["output_file_help"],
     )
     sign_parser.add_argument(
         "--hash-algorithm",
         default="sha256",
         choices=get_args(HashTypes),
-        help="Hash algorithm for the signature",
+        help=t["cli"]["sign"]["hash_algorithm_help"],
     )
 
 
 def register_extract_certificate_parser(subparsers):
     certificate_parser = subparsers.add_parser(
         "extract",
-        help="Extract certificates from the DNIe",
+        help=t["cli"]["extract"]["extract_help"],
     )
     certificate_parser.add_argument(
         "certificate_type",
         choices=["signature", "encryption"],
         type=str,
-        help="Type of certificate to extract",
+        help=t["cli"]["extract"]["certificate_type_help"],
     )
     certificate_parser.add_argument(
         "output_file",
         type=Path,
-        help="File to write the certificate to",
+        help=t["cli"]["extract"]["output_file_help"],
     )
 
 
 def main():
     parser = ArgumentParser(
         prog="dniectl",
-        description=(
-            "Utilities for the Peruvian DNIe Smart Card cryptographic functions"
-        ),
+        description=t["cli"]["program_description"],
     )
 
     subparsers = parser.add_subparsers(
         dest="command",
-        help="Available DNIe tasks",
+        help=t["cli"]["available_tasks"],
     )
 
     register_sign_parser(subparsers)

@@ -9,6 +9,7 @@ from peru_dnie.apdu import APDUCommand, APDUResponse
 from peru_dnie.card import SmartCard
 from peru_dnie.cli_config import CLI_CONFIG, CliConfig
 from peru_dnie.hashes import HashFunction
+from peru_dnie.i18n import t
 
 
 @define
@@ -19,7 +20,7 @@ class Context:
 
     def transmit(self, command: APDUCommand) -> APDUResponse:
         if self.card is None:
-            raise RuntimeError("DNIe card is not initialized")
+            raise RuntimeError(t["errors"]["dnie_not_init"])
         return self.card.transmit(command)
 
 

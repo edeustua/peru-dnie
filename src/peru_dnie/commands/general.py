@@ -8,6 +8,7 @@ from rich.prompt import Prompt
 # First Party Library
 from peru_dnie.apdu import APDUCommand
 from peru_dnie.context import Context
+from peru_dnie.i18n import t
 
 
 class PinType(Enum):
@@ -45,7 +46,7 @@ SELECT_PKI_APP: Final = APDUCommand(
 def verify_pin(ctx: Context, *, pin_type: PinType) -> bool:
     """Verify the PIN before a DNIe cryptographic operation"""
     pin = Prompt.ask(
-        "Please enter your PIN",
+        t["general"]["enter_pin"],
         password=True,
         console=ctx.cli.console,
     )
@@ -64,6 +65,6 @@ def verify_pin(ctx: Context, *, pin_type: PinType) -> bool:
     r = ctx.transmit(verify_command)
 
     if not r.ok:
-        raise RuntimeError(f"Failed to verify PIN: '{r:!r}'")
+        raise RuntimeError(t["errors"]["failed_pin"].format(repr(r)))
 
     return True

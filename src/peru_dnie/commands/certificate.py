@@ -7,6 +7,7 @@ from rich.status import Status
 # First Party Library
 from peru_dnie.apdu import APDUCommand, APDUError
 from peru_dnie.context import Context
+from peru_dnie.i18n import t
 
 # Local Modules
 from .general import SELECT_PKI_APP
@@ -22,7 +23,7 @@ def extract_signature_certificate(ctx: Context) -> bytes:
         print("Select PKI: '{r:!r}'")
 
     if not r.ok:
-        raise APDUError(f"Could not select PKI app: '{r:!r}'")
+        raise APDUError(t["errors"]["could_not_select_pki"].format(repr(r)))
 
     # Select signature certificate
     select_signature_certificate = APDUCommand(
@@ -39,7 +40,7 @@ def extract_signature_certificate(ctx: Context) -> bytes:
         print("Select signature certificate: '{r:!r}'")
 
     if not r.ok:
-        raise APDUError(f"Could not select signature certificate file: '{r:!r}'")
+        raise APDUError(t["errors"]["could_not_select_cert"].format(repr(r)))
 
     read_cert_apdu_command = APDUCommand(
         cla=0x00,
@@ -56,7 +57,7 @@ def extract_signature_certificate(ctx: Context) -> bytes:
             f"Read certificate data APDU must have a data field '{read_cert_apdu_command:!r}'"
         )
 
-    spinner = Status("Reading signature certificate...", console=ctx.cli.console)
+    spinner = Status(t["certificates"]["reading_cert"], console=ctx.cli.console)
     spinner.start()
 
     output_certificate = b""
@@ -65,7 +66,7 @@ def extract_signature_certificate(ctx: Context) -> bytes:
         r = ctx.transmit(read_cert_apdu_command)
 
         if r.data is None:
-            raise APDUError(f"Could not read signature certificate '{r:!r}'")
+            raise APDUError(t["errors"]["could_not_read_cert"].format(repr(r)))
 
         # First two bytes are the tag. Third byte is length (should be 0xe4).
         # See TLV frame.
@@ -84,9 +85,7 @@ def extract_signature_certificate(ctx: Context) -> bytes:
             break
 
         if r.data[0] != 0x53 or not r.ok:
-            raise APDUError(
-                f"Something went wrong while reading the certificate: '{r:!r}'"
-            )
+            raise APDUError(t["errors"]["wrong_while_reading"].format(repr(r)))
 
         # Update reading command with new offset
         offset = int.from_bytes(read_cert_apdu_command.data[2:]) + 0xE4
@@ -95,10 +94,10 @@ def extract_signature_certificate(ctx: Context) -> bytes:
 
     if success:
         spinner.stop()
-        ctx.cli.console.print("[green]Certificate successfully loaded")
+        ctx.cli.console.print(t["certificates"]["success"])
     else:
-        ctx.cli.console.print("[red]Could not read certificate")
-        raise RuntimeError("Could not read signature certificate")
+        ctx.cli.console.print(t["certificates"]["failed"])
+        raise SystemExit()
 
     return output_certificate
 
@@ -112,7 +111,7 @@ def extract_certificate_to_file(
     if certificate_type == "signature":
         certificate = extract_signature_certificate(ctx)
     else:
-        raise TypeError("Certificate type extraction not supported")
+        raise TypeError(t["errors"]["certificate_not_supported"])
 
     output_file.write_bytes(certificate)
-    ctx.cli.console.print(f"[green]Wrote certificate to '{output_file.name}'")
+    ctx.cli.console.print(t["certificates"]["wrote_cert"].format(output_file.name))

@@ -4,6 +4,9 @@ from typing import Sequence, Union
 # Third Party Library
 from attrs import define
 
+# First Party Library
+from peru_dnie.i18n import t
+
 ByteLike = Union[Sequence[int], bytes, bytearray]
 
 
@@ -23,10 +26,10 @@ class APDUCommand:
 
     def __attrs_post_init__(self):
         if self.data is None and self.lc is not None:
-            raise ValueError("'lc' must be None if 'data' is None")
+            raise ValueError(t["errors"]["lc_must_none"])
 
         elif self.data is not None and self.lc != len(self.data):
-            raise ValueError("'lc' must be the length of 'data'")
+            raise ValueError(t["errors"]["lc_must_length"])
 
     def serialize(self) -> bytes:
         command = bytes([self.cla, self.ins, self.p1, self.p2])

@@ -6,6 +6,7 @@ from pathlib import Path
 from peru_dnie.apdu import APDUCommand, APDUError
 from peru_dnie.context import Context
 from peru_dnie.hashes import HashFunction
+from peru_dnie.i18n import t
 
 # Local Modules
 from .general import SELECT_PKI_APP, PinType, verify_pin
@@ -55,7 +56,7 @@ def sign_bytes(
     r = ctx.transmit(SELECT_PKI_APP)
 
     if not r.ok:
-        raise APDUError(f"Could not initialize PKI app '{r:!r}'")
+        raise APDUError(t["errors"]["could_not_select_pki"].format(repr(r)))
 
     verify_pin(ctx, pin_type=PinType.SIGNATURE)
 
@@ -83,7 +84,7 @@ def sign_bytes(
     r = ctx.transmit(set_security_environment)
 
     if not r.ok:
-        raise APDUError(f"Could not set the security enviroment '{r:!r}'")
+        raise APDUError(t["errors"]["could_not_set_env"].format(repr(r)))
 
     signature_command = APDUCommand(
         cla=0x00,
@@ -97,7 +98,7 @@ def sign_bytes(
     r = ctx.transmit(signature_command)
 
     if not r.ok or r.data is None:
-        raise APDUError(f"Could not sign the payload '{r:!r}'")
+        raise APDUError(t["errors"]["could_not_sign"].format(repr(r)))
 
     return r.data
 

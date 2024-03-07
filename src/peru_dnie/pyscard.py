@@ -13,6 +13,7 @@ from peru_dnie.apdu import APDUCommand, APDUResponse
 from peru_dnie.card import SmartCard
 from peru_dnie.constants import PERU_DNIE_V2_ATR
 from peru_dnie.exceptions import CardError
+from peru_dnie.i18n import t
 
 
 @define
@@ -40,4 +41,4 @@ def get_dnie_connection() -> PCSCCardConnection:
     if card_service is not None:
         return card_service.connection
     else:
-        raise CardError("Could not find DNIe")
+        raise CardError(t["errors"]["dnie_not_found"])

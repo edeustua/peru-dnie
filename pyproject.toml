@@ -12,6 +12,12 @@ classifiers = [
   "Operating System :: OS Independent",
 ]
 
+dependencies = [
+  'attrs ~= 23.2.0',
+  'pyscard ~= 3.0.7',
+  'rich ~= 13.7.0',
+]
+
 [project.scripts]
 peru_dnie = "peru_dnie.cli:main"
 
