@@ -14,7 +14,7 @@ classifiers = [
 
 dependencies = [
   'attrs ~= 23.2.0',
-  'pyscard ~= 3.0.7',
+  'pyscard ~= 2.0.7',
   'rich ~= 13.7.0',
 ]
 
