@@ -5,6 +5,11 @@ on:
     tags:
       - 'v*.*.*'
   workflow_dispatch:
+    inputs:
+      version:
+        type: string
+        description: "Release version"
+        required: true
 
 jobs:
   build-and-publish:
@@ -19,8 +24,16 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Inputs from workflow dispatch
+        shell: bash
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        run: |
+          echo "PERU_DNIE_VERSION=${{ github.event.inputs.version }}" >> $GITHUB_ENV
+          echo "PERU_DNIE_VERSION: ${{ github.event.inputs.version }}"
+
       - name: Get the release version from the tag
         shell: bash
+        if: env.PERU_DNIE_VERSION == ''
         run: |
           # Apparently, this is the right way to get a tag name. Really?
           #
