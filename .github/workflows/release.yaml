@@ -42,7 +42,7 @@ jobs:
         id: release
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create --draft --title "${{ env.PERU_DNIE_VERSION }}" "${{ env.PERU_DNIE_VERSION }}"
+        run: gh release create --title "${{ env.PERU_DNIE_VERSION }}" "${{ env.PERU_DNIE_VERSION }}"
 
       - name: Upload release archive
         env:
