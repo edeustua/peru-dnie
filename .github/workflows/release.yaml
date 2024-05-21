@@ -47,8 +47,9 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release upload "${{ env.PERU_DNIE_VERSION }}" "peru_dnie*.tar.gz"
-          gh release upload "${{ env.PERU_DNIE_VERSION }}" "peru_dnie*.whl"
+          ls -lh dist
+          gh release upload "${{ env.PERU_DNIE_VERSION }}" dist/peru_dnie*.tar.gz
+          gh release upload "${{ env.PERU_DNIE_VERSION }}" dist/peru_dnie*.whl
 
       - name: Publish to PyPI
         env:
