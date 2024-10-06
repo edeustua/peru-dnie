@@ -8,9 +8,10 @@ electrónico peruano (DNI) versión 2.
 
 ## Antes de comenzar
 Esta aplicación es actualmente compatible solo con distribuciones Linux. Para
-usar tu DNIe, necesitarás un lector de SmartCard USB. La mayoría de los lectores
+usar tu DNIe, necesitarás un lector de SmartCard o NFC USB. La mayoría de los lectores
 disponibles en AliExpress son compatibles. He usado con éxito el [lector
-ZoweeTek](https://es.aliexpress.com/item/32222806111.html?spm=a2g0o.detail.pcDetailBottomMoreOtherSeller.18.34d1RvABRvABIW&gps-id=pcDetailBottomMoreOtherSeller&scm=1007.40050.354490.0&scm_id=1007.40050.354490.0&scm-url=1007.40050.354490.0&pvid=4b0b3ecc-022f-4424-99ea-077d1f5a0ced&_t=gps-id:pcDetailBottomMoreOtherSeller,scm-url:1007.40050.354490.0,pvid:4b0b3ecc-022f-4424-99ea-077d1f5a0ced,tpp_buckets:668%232846%238110%231995&isseo=y&pdp_npi=4%40dis%21PEN%2142.04%2110.30%21%21%2110.90%212.67%21%402101e7f617098241588065532ec86d%2112000031130620577%21rec%21PE%21%21AB&utparam-url=scene%3ApcDetailBottomMoreOtherSeller%7Cquery_from%3A).
+ZoweeTek](https://es.aliexpress.com/item/32222806111.html?spm=a2g0o.detail.pcDetailBottomMoreOtherSeller.18.34d1RvABRvABIW&gps-id=pcDetailBottomMoreOtherSeller&scm=1007.40050.354490.0&scm_id=1007.40050.354490.0&scm-url=1007.40050.354490.0&pvid=4b0b3ecc-022f-4424-99ea-077d1f5a0ced&_t=gps-id:pcDetailBottomMoreOtherSeller,scm-url:1007.40050.354490.0,pvid:4b0b3ecc-022f-4424-99ea-077d1f5a0ced,tpp_buckets:668%232846%238110%231995&isseo=y&pdp_npi=4%40dis%21PEN%2142.04%2110.30%21%21%2110.90%212.67%21%402101e7f617098241588065532ec86d%2112000031130620577%21rec%21PE%21%21AB&utparam-url=scene%3ApcDetailBottomMoreOtherSeller%7Cquery_from%3A) y
+[lector ACR122U](https://es.aliexpress.com/item/1005007104130963.html?spm=a2g0o.order_list.order_list_main.5.3446194dYLfYqG&gatewayAdapt=glo2esp).
 
 Para instalar este paquete, ejecuta:
 ```console
@@ -28,17 +29,17 @@ Para extraer el certificado público de tu DNIe v2, asegúrate de que tu DNIe es
 insertado en el lector y ejecuta:
 
 ```console
-peru_dnie extract signature mi_certificado_de_firma.pem
+peru_dnie extract signature mi_certificado_de_firma.crt
 ```
 
-Este comando genera un archivo llamado `mi_certificado_de_firma.pem`, que
+Este comando genera un archivo llamado `mi_certificado_de_firma.crt`, que
 contiene tu certificado x509 y clave pública.
 
 Para ver el contenido del archivo, utiliza el siguiente comando `openssl`:
 
 
 ```console
-openssl x509 -in mi_certificado_de_firma.pem -noout -text
+openssl x509 -in mi_certificado_de_firma.crt -noout -text
 ```
 
 Deberías ver una salida similar a esta:
@@ -62,7 +63,7 @@ Certificate:
 Para extraer la clave pública del certificado, ejecuta:
 
 ```console
-openssl x509 -pubkey -noout -in mi_certificado_de_firma.pem > mi_llave_publica.pem
+openssl x509 -pubkey -noout -in mi_certificado_de_firma.crt > mi_llave_publica.pem
 ```
 
 Necesitaremos esto para verificar nuestra firma en el siguiente paso.
@@ -108,9 +109,9 @@ using the Peruvian electronic National Identity Document (DNI) version 2.
 ## Getting started
 
 This application is currently compatible only with Linux distributions. To use
-your DNIe, you will need a USB SmartCard reader. Most readers available on
-AliExpress are compatible. I have successfully used the [ZoweeTek
-successfully](https://es.aliexpress.com/item/32222806111.html?spm=a2g0o.detail.pcDetailBottomMoreOtherSeller.18.34d1RvABRvABIW&gps-id=pcDetailBottomMoreOtherSeller&scm=1007.40050.354490.0&scm_id=1007.40050.354490.0&scm-url=1007.40050.354490.0&pvid=4b0b3ecc-022f-4424-99ea-077d1f5a0ced&_t=gps-id:pcDetailBottomMoreOtherSeller,scm-url:1007.40050.354490.0,pvid:4b0b3ecc-022f-4424-99ea-077d1f5a0ced,tpp_buckets:668%232846%238110%231995&isseo=y&pdp_npi=4%40dis%21PEN%2142.04%2110.30%21%21%2110.90%212.67%21%402101e7f617098241588065532ec86d%2112000031130620577%21rec%21PE%21%21AB&utparam-url=scene%3ApcDetailBottomMoreOtherSeller%7Cquery_from%3A).
+your DNIe, you will need a USB SmartCard or NFC reader. Most readers available on
+AliExpress are compatible. I have successfully used the [ZoweeTek](https://es.aliexpress.com/item/32222806111.html?spm=a2g0o.detail.pcDetailBottomMoreOtherSeller.18.34d1RvABRvABIW&gps-id=pcDetailBottomMoreOtherSeller&scm=1007.40050.354490.0&scm_id=1007.40050.354490.0&scm-url=1007.40050.354490.0&pvid=4b0b3ecc-022f-4424-99ea-077d1f5a0ced&_t=gps-id:pcDetailBottomMoreOtherSeller,scm-url:1007.40050.354490.0,pvid:4b0b3ecc-022f-4424-99ea-077d1f5a0ced,tpp_buckets:668%232846%238110%231995&isseo=y&pdp_npi=4%40dis%21PEN%2142.04%2110.30%21%21%2110.90%212.67%21%402101e7f617098241588065532ec86d%2112000031130620577%21rec%21PE%21%21AB&utparam-url=scene%3ApcDetailBottomMoreOtherSeller%7Cquery_from%3A) and
+[ACR122U](https://es.aliexpress.com/item/1005007104130963.html?spm=a2g0o.order_list.order_list_main.5.3446194dYLfYqG&gatewayAdapt=glo2esp) successfully.
 
 To install this package, run:
 
@@ -127,16 +128,16 @@ key verifies your identity and is used to authenticate your digital signatures.
 To extract the public certificate from your DNIe v2, ensure your DNIe is
 inserted into the reader and run:
 ```console
-peru_dnie extract signature my_signing_certificate.pem
+peru_dnie extract signature my_signing_certificate.crt
 ```
 
-This command generates a file named `my_signing_certificate.pem`, containing
+This command generates a file named `my_signing_certificate.crt`, containing
 your x509 certificate and public key.
 
 To view the file contents, use the following `openssl` command:
 
 ```console
-openssl x509 -in my_signing_certificate.pem -noout -text
+openssl x509 -in my_signing_certificate.crt -noout -text
 ```
 
 You should see output similar to this:
@@ -158,7 +159,7 @@ Certificate:
 
 To extract the public key from the certificate, execute:
 ```console
-openssl x509 -pubkey -noout -in my_signing_certificate.pem > my_signing_pubkey.pem
+openssl x509 -pubkey -noout -in my_signing_certificate.crt > my_signing_pubkey.pem
 
 ```
 
