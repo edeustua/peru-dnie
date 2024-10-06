@@ -122,3 +122,11 @@ PERU_DNIE_V2_ATR: Final = [
     0x02,
     0x50,
 ]
+
+PERU_DNIE_V2_ATR_NFC: Final = [
+    0x3B,
+    0x80,
+    0x80,
+    0x01,
+    0x01,
+]
