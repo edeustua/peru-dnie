@@ -28,7 +28,7 @@ class HashFunction:
         elif self.name == "sha512":
             return hash_sha384(input_bytes)
         else:
-            raise TypeError("Hash functoin not supported")
+            raise TypeError("Hash function not supported")
 
 
 def hash_sha224(input_bytes: bytes) -> bytes:
