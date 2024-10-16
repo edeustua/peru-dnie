@@ -4,6 +4,7 @@ version = "0.0.2"
 authors = [
   { name="Emiliano Deustua", email="edeustua@gmail.com" },
 ]
+description = "A simple tool to use the Peruvian DNIe v2"
 readme = "README.md"
 requires-python = ">=3.8"
 classifiers = [
@@ -42,7 +43,7 @@ venv = ".venv"
 reportMissingImports = true
 reportMissingTypeStubs = false
 
-pythonVersion = "3.11"
+pythonVersion = "3.12"
 
 [tool.isort]
 profile = "black"
@@ -52,7 +53,7 @@ order_by_type = true
 
 # line_length = 1
 # add a section for company internal libraries
-known_firstparty=["ibeks_pulumi", "local_test_utils"]
+known_firstparty=["local_test_utils"]
 
 # add the comment headers for each section
 import_heading_stdlib="Standard Library"
