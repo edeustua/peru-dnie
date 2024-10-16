@@ -16,7 +16,7 @@ class PinType(Enum):
     ENCRYPTION = 0x83
 
 
-SELECT_PKI_APP: Final = APDUCommand(
+SELECT_PKI_APP_CMD: Final = APDUCommand(
     cla=0x00,
     ins=0xA4,
     p1=0x04,

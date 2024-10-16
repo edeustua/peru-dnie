@@ -1,4 +1,5 @@
 # Standard Library
+from enum import Enum, auto
 from typing import Final
 
 MODULUS_SIZE: Final = 256
@@ -130,3 +131,16 @@ PERU_DNIE_V2_ATR_NFC: Final = [
     0x01,
     0x01,
 ]
+
+
+class CertificateType(Enum):
+    SIGNATURE = auto()
+    AUTHENTICATION = auto()
+    ENCRYPTION = auto()
+
+
+CERTIFICATE_FILE_ID: Final = {
+    CertificateType.SIGNATURE: [0x00, 0x1D],
+    CertificateType.AUTHENTICATION: [0x00, 0x1C],
+    CertificateType.ENCRYPTION: [0x00, 0x1B],
+}

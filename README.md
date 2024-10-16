@@ -89,9 +89,9 @@ DNIe V2 encontrado
 Por favor, introduce tu PIN:
 ```
 
-Introduce el PIN que configuraste con tu DNIe. El comando produce un archivo
-llamado `declaracion.txt.sig`, sirviendo como evidencia de tu firma en
-`declaracion.txt`.
+Introduce el PIN que configuraste con tu DNIe cuando lo recogiste en RENIEC. El
+comando produce un archivo llamado `declaracion.txt.firma`, sirviendo como
+evidencia de tu firma en `declaracion.txt`.
 
 Para verificar tu firma, puedes ejecutar este comando `openssl`:
 

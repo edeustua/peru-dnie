@@ -6,18 +6,33 @@ from rich.status import Status
 
 # First Party Library
 from peru_dnie.apdu import APDUCommand, APDUError
+from peru_dnie.constants import CERTIFICATE_FILE_ID, CertificateType
 from peru_dnie.context import Context
 from peru_dnie.i18n import t
 
 # Local Modules
-from .general import SELECT_PKI_APP
+from .general import SELECT_PKI_APP_CMD
+
+
+def extract_encryption_certificate(ctx: Context) -> bytes:
+    """Get encryption x509 certificate from DNIe"""
+    return extract_certificate(ctx, CertificateType.ENCRYPTION)
+
+
+def extract_auth_certificate(ctx: Context) -> bytes:
+    """Get authentication x509 certificate from DNIe"""
+    return extract_certificate(ctx, CertificateType.AUTHENTICATION)
 
 
 def extract_signature_certificate(ctx: Context) -> bytes:
-    """Get signature x509 certificate from DNIe"""
+    return extract_certificate(ctx, CertificateType.SIGNATURE)
+
+
+def extract_certificate(ctx: Context, cert_type: CertificateType) -> bytes:
+    """Get x509 certificate from DNIe"""
 
     # Open PKI app
-    r = ctx.transmit(SELECT_PKI_APP)
+    r = ctx.transmit(SELECT_PKI_APP_CMD)
 
     if ctx.cli.DEBUG:
         print("Select PKI: '{r:!r}'")
@@ -25,19 +40,19 @@ def extract_signature_certificate(ctx: Context) -> bytes:
     if not r.ok:
         raise APDUError(t["errors"]["could_not_select_pki"].format(repr(r)))
 
-    # Select signature certificate
-    select_signature_certificate = APDUCommand(
+    # Select certificate
+    select_certificate_cmd = APDUCommand(
         cla=0x00,
         ins=0xA4,
         p1=0x02,
         p2=0x04,
         lc=0x02,
-        data=bytes([0x00, 0x1D]),
+        data=bytes(CERTIFICATE_FILE_ID[cert_type]),
     )
-    r = ctx.transmit(select_signature_certificate)
+    r = ctx.transmit(select_certificate_cmd)
 
     if ctx.cli.DEBUG:
-        print("Select signature certificate: '{r:!r}'")
+        print(f"Select ({cert_type}) certificate APDU response: '{r:!r}'")
 
     if not r.ok:
         raise APDUError(t["errors"]["could_not_select_cert"].format(repr(r)))
@@ -110,6 +125,10 @@ def extract_certificate_to_file(
 ):
     if certificate_type == "signature":
         certificate = extract_signature_certificate(ctx)
+    elif certificate_type == "authentication":
+        certificate = extract_auth_certificate(ctx)
+    elif certificate_type == "encryption":
+        certificate = extract_encryption_certificate(ctx)
     else:
         raise TypeError(t["errors"]["certificate_not_supported"])
 

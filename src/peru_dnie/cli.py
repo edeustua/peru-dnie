@@ -42,7 +42,7 @@ def register_extract_certificate_parser(subparsers):
     )
     certificate_parser.add_argument(
         "certificate_type",
-        choices=["signature", "encryption"],
+        choices=["signature", "encryption", "authentication"],
         type=str,
         help=t["cli"]["extract"]["certificate_type_help"],
     )

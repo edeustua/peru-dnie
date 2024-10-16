@@ -9,7 +9,7 @@ from peru_dnie.hashes import HashFunction
 from peru_dnie.i18n import t
 
 # Local Modules
-from .general import SELECT_PKI_APP, PinType, verify_pin
+from .general import SELECT_PKI_APP_CMD, PinType, verify_pin
 
 
 class PaddingSchemes(str, Enum):
@@ -53,7 +53,7 @@ def sign_bytes(
         PaddingSchemes.PKCS1_15,
     )
 
-    r = ctx.transmit(SELECT_PKI_APP)
+    r = ctx.transmit(SELECT_PKI_APP_CMD)
 
     if not r.ok:
         raise APDUError(t["errors"]["could_not_select_pki"].format(repr(r)))

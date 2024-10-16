@@ -30,7 +30,7 @@ LANG = {
             },
             "extract": {
                 "extract_help": "Extract certificates from the DNIe",
-                "certificate_type_help": "Type of certificate to extract",
+                "certificate_type_help": "Type of certificate to extract: signature, encryption or authentication",
                 "output_file_help": "Output public certificate file",
             },
             "program_description": "Utilities for the Peruvian DNIe Smart Card cryptographic functions",
@@ -76,7 +76,7 @@ LANG = {
             },
             "extract": {
                 "extract_help": "Extraer certificados del DNIe",
-                "certificate_type_help": "Tipo de certificado a extraer",
+                "certificate_type_help": "Tipo de certificado a extraer: firma, encripcion o autentificacion",
                 "output_file_help": "Archivo de certificado público resultante",
             },
             "program_description": "Utilidades para las funciones criptográficas de la Tarjeta Inteligente DNIe peruana",
