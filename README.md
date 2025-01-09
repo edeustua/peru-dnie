@@ -20,7 +20,7 @@ pip install git+https://github.com/edeustua/peru-dnie.git
 
 Esto debería instalar peru-dnie junto con sus dependencias: `attrs`, `pyscard` y `rich`.
 
-## Extrayendo tu Certificado de Firma Pública x509
+## Extraer el Certificado de Firma Pública x509
 El certificado público x509 contiene tu clave pública RSA, firmada por Reniec.
 Esta clave verifica tu identidad y se utiliza para autenticar tus firmas
 digitales.
@@ -69,7 +69,7 @@ openssl x509 -pubkey -noout -in mi_certificado_de_firma.crt > mi_llave_publica.p
 Necesitaremos esto para verificar nuestra firma en el siguiente paso.
 
 
-## Firmando un archivo con tu DNIe
+## Firmar un archivo con tu DNIe
 
 **NOTA**: Firmar un archivo tiene carácter legalmente vinculante. Asegúrate de
 estar de acuerdo con el contenido antes de firmar.
